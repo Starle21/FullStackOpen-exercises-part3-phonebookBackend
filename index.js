@@ -40,13 +40,34 @@ app.post("/api/persons", (request, response) => {
   const id = Math.floor(Math.random() * 1000000);
 
   //extract body from the request
-  const person = request.body;
-  person.id = id;
+  const body = request.body;
+
+  if (!body.name) {
+    return response.status(404).json({
+      error: "name is missing",
+    });
+  }
+  if (!body.number) {
+    return response.status(404).json({
+      error: "number is missing",
+    });
+  }
+
+  if (persons.find((person) => person.name === body.name)) {
+    return response.status(404).json({
+      error: "name must be unique",
+    });
+  }
+
+  const person = {
+    id: id,
+    name: body.name,
+    number: body.number,
+  };
 
   //concat to create new array
   persons = persons.concat(person);
 
-  console.log(persons);
   response.json(person);
 });
 
