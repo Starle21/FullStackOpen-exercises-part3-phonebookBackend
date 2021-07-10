@@ -128,5 +128,5 @@ app.get("/info", (request, response) => {
   response.send(info);
 });
 
-const PORT = 3005;
+const PORT = process.env.PORT || 3005;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
