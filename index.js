@@ -1,8 +1,10 @@
-const { request } = require("express");
+// const { request } = require("express");
 const express = require("express");
+const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 // Morgan using predefined configuration
 // app.use(morgan("tiny"));
