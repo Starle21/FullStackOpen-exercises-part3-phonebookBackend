@@ -76,17 +76,6 @@ app.put("/api/persons/:id", (request, response, next) => {
       }
     })
     .catch((error) => next(error));
-  // Person.findOne(request.params.id)
-  //   .then((returnedPerson) => {
-  //     if (returnedPerson === null) {
-  //       response.status(404).end();
-  //     }
-  //   })
-  //   .save()
-  //   .then((savedPerson) => {
-  //     response.json(savedPerson);
-  //   })
-  //   .catch((error) => next(error));
 });
 
 app.delete("/api/persons/:id", (request, response, next) => {
