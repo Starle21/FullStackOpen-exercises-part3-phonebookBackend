@@ -89,14 +89,15 @@ app.delete("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-// to change
 app.get("/info", (request, response) => {
-  const info = `
-  <div>Phonebook contains ${persons.length} entries.</div>
-  <br/>
-  <div>${new Date()}</div>
-  `;
-  response.send(info);
+  Person.find({}).then((result) => {
+    const info = `
+    <div>Phonebook contains ${result.length} entries.</div>
+    <br/>
+    <div>Time of you requesting: ${new Date()}</div>
+    `;
+    response.send(info);
+  });
 });
 
 const errorHandler = (error, request, response, next) => {
