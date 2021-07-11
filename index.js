@@ -29,36 +29,21 @@ app.get("/api/persons", (request, response) => {
 });
 
 // create new contact
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   //extract body from the request
   const body = request.body;
 
-  if (body.name === undefined) {
-    return response.status(404).json({
-      error: "name is missing",
-    });
-  }
-  if (body.number === undefined) {
-    return response.status(404).json({
-      error: "number is missing",
-    });
-  }
-
-  Person.findOne({ name: body.name }).then((result) => {
-    if (result) {
-      return response.status(400).json({
-        error: "name must be unique",
-      });
-    }
-    const person = new Person({
-      name: body.name,
-      number: body.number,
-    });
-
-    person.save().then((savedPerson) => {
-      response.json(savedPerson);
-    });
+  const person = new Person({
+    name: body.name,
+    number: body.number,
   });
+
+  person
+    .save()
+    .then((savedPerson) => {
+      response.json(savedPerson);
+    })
+    .catch((error) => next(error));
 });
 
 app.get("/api/persons/:id", (request, response, next) => {
@@ -107,6 +92,8 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).send({
       error: "malformated id",
     });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
   }
   next(error);
 };
