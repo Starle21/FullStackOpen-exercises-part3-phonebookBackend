@@ -3,7 +3,6 @@ const cors = require("cors");
 const morgan = require("morgan");
 require("dotenv").config();
 const Person = require("./models/person");
-const e = require("express");
 
 const app = express();
 
@@ -80,7 +79,7 @@ app.put("/api/persons/:id", (request, response, next) => {
 
 app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then((result) => response.status(204).end())
+    .then(() => response.status(204).end())
     .catch((error) => next(error));
 });
 
