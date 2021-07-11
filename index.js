@@ -44,29 +44,20 @@ app.post("/api/persons", (request, response) => {
     });
   }
 
-  // Person.find({ name: body.name }).then((result) => {
-  //   if (result) {
-  //     return response.status(404).json({
-  //       error: "name must be unique",
-  //     });
-  //   }
-  //   const person = new Person({
-  //     name: body.name,
-  //     number: body.number,
-  //   });
+  Person.findOne({ name: body.name }).then((result) => {
+    if (result) {
+      return response.status(400).json({
+        error: "name must be unique",
+      });
+    }
+    const person = new Person({
+      name: body.name,
+      number: body.number,
+    });
 
-  //   person.save().then((savedPerson) => {
-  //     response.json(savedPerson);
-  //   });
-  // });
-
-  const person = new Person({
-    name: body.name,
-    number: body.number,
-  });
-
-  person.save().then((savedPerson) => {
-    response.json(savedPerson);
+    person.save().then((savedPerson) => {
+      response.json(savedPerson);
+    });
   });
 });
 
