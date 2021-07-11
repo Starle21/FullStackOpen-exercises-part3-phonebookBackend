@@ -3,6 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 require("dotenv").config();
 const Person = require("./models/person");
+const e = require("express");
 
 const app = express();
 
@@ -63,9 +64,29 @@ app.put("/api/persons/:id", (request, response, next) => {
   const person = {
     number: body.number,
   };
-  Person.findByIdAndUpdate(request.params.id, person, { new: true })
-    .then((updatedPerson) => response.json(updatedPerson))
+  Person.findByIdAndUpdate(request.params.id, person, {
+    runValidators: true,
+    new: true,
+  })
+    .then((updatedPerson) => {
+      if (updatedPerson === null) {
+        response.status(404).end();
+      } else {
+        response.json(updatedPerson);
+      }
+    })
     .catch((error) => next(error));
+  // Person.findOne(request.params.id)
+  //   .then((returnedPerson) => {
+  //     if (returnedPerson === null) {
+  //       response.status(404).end();
+  //     }
+  //   })
+  //   .save()
+  //   .then((savedPerson) => {
+  //     response.json(savedPerson);
+  //   })
+  //   .catch((error) => next(error));
 });
 
 app.delete("/api/persons/:id", (request, response, next) => {
