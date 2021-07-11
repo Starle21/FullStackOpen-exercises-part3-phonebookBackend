@@ -1,7 +1,10 @@
-POST https://evening-eyrie-68904.herokuapp.com/api/persons
+# POST https://evening-eyrie-68904.herokuapp.com/api/persons
+POST http://localhost:3005/api/persons
 Content-Type: application/json
 
 {
     "name":"Tom Minarovic",
     "number": "563-495"
 }
+
+
